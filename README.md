@@ -32,7 +32,7 @@ python F01e_single_mutagenesis_heatmap.py
 python S05_double_mutant_heatmap.py
 ```
 
-Each script writes its figure into `./figs` as png, svg and pdf, under the stem the script sets. The inputs of each script are listed in the Figure Summary below; all of them are in the repository except the two embedding matrices that `S02_representation_tsne.py` reads, which are described under Assets Not Tracked.
+Each script writes its figure into `./figs` as png, svg and pdf, under the stem the script sets. The inputs of each script are listed in the Figure Summary below.
 
 ## Training and Benchmarking the Models
 
@@ -40,7 +40,7 @@ Each script writes its figure into `./figs` as png, svg and pdf, under the stem 
 
 ## Designing the Candidate Libraries
 
-`R01_round1_predictor.py` trains the three-branch predictor on the whole round-1 library, and the two design rounds score their candidates with it. `R02_round2_design.py` screens the round-1 syntax results, picks the spacer templates and the best double-mutant operators, fills the flanking sequences with DeepSEED and with random draws, and keeps one design per template. Its two extensions cover the higher operator counts and a six-operator control arm. `R03_round3_design.py` repeats the design with ten bootstrap members of the ensemble and an Upper Confidence Bound screen.
+`R01_round1_predictor.py` trains the three-branch predictor on the whole round-1 library, and the two design rounds score their candidates with it. `R02_round2_design.py` screens the round-1 syntax results, picks the spacer templates and the best double-mutant operators, fills the flanking sequences with DeepSEED and with random draws, and keeps one design per template. Its two extensions cover the higher operator counts and a six-operator control. `R03_round3_design.py` repeats the design with ten bootstrap members of the ensemble and an Upper Confidence Bound screen.
 
 # Preparation
 
@@ -58,14 +58,14 @@ Every figure is written as png (300 or 600 dpi), svg and pdf, with TrueType font
 
 ## Data Summary
 
-The MPRA tables are per-sequence activity and are named by arm and condition: `FUS_TO` is the FUS-rtTA arm, `TO` the canonical rtTA arm, and `induced` / `uninduced` the +Dox / −Dox condition. The replicate tables carry the two biological replicates, the mean tables one mean per sequence.
+The MPRA tables are per-sequence activity and are named by transactivator and condition: `FUS_TO` is the FUS-rtTA system, `TO` the canonical rtTA system, and `induced` / `uninduced` the +Dox / −Dox condition. The replicate tables carry the two biological replicates, the mean tables one mean per sequence.
 
 | File | Content |
 |---|---|
-| `data/7_exp_rep{1,2}_FUS_TO_{induced,uninduced}.tsv` | Round-1 MPRA, FUS-rtTA arm, two replicates per condition |
-| `data/7_exp_rep{1,2}_TO_{induced,uninduced}.tsv` | The same four tables for the canonical rtTA arm |
-| `data/7_exp_mean_FUS_TO_{induced,uninduced}.tsv` | Per-sequence means of the round-1 library, FUS-rtTA arm |
-| `data/7_exp_mean_TO_{induced,uninduced}.tsv` | The same for the canonical rtTA arm |
+| `data/7_exp_rep{1,2}_FUS_TO_{induced,uninduced}.tsv` | Round-1 MPRA, FUS-rtTA system, two replicates per condition |
+| `data/7_exp_rep{1,2}_TO_{induced,uninduced}.tsv` | The same four tables for the canonical rtTA system |
+| `data/7_exp_mean_FUS_TO_{induced,uninduced}.tsv` | Per-sequence means of the round-1 library, FUS-rtTA system |
+| `data/7_exp_mean_TO_{induced,uninduced}.tsv` | The same for the canonical rtTA system |
 | `data/F1_IDR_activity.csv` | Reporter activity of the IDR–rtTA panel, Fig. 1B |
 | `data/F1_dox responsive curve plot.xlsx` | Doxycycline dose–response, Fig. 1C |
 | `data/F4_double_mutant_activity.csv` | Reporter activity of the double mutants, Fig. 1F |
@@ -107,8 +107,8 @@ The MPRA tables are per-sequence activity and are named by arm and condition: `F
 | `R01_round1_prepare_lib_combine.py` | The 18,000-design library | `./results/round1_library/final_library.{csv,txt}` |
 | `R01_round1_predictor.py` | Round-1 predictor, three branches | `./checks/round1_design/`, `./data/predictor_train/` |
 | `R02_round2_design.py` | Round-2 design, 5–6 operators (Lib1) | `./results/round2_design/` |
-| `R02_round2_design_ext1_stack.py` | Round-2 arm, seven operators and above (Lib2) | `./results/round2_design_ext1_stack/` |
-| `R02_round2_design_ext2_6tetO.py` | Round-2 arm, six-operator control | `./results/round2_design_ext2_6tetO/` |
+| `R02_round2_design_ext1_stack.py` | Round-2 extension, seven operators and above (Lib2) | `./results/round2_design_ext1_stack/` |
+| `R02_round2_design_ext2_6tetO.py` | Round-2 extension, six-operator control | `./results/round2_design_ext2_6tetO/` |
 | `R03_round3_design.py` | Round-3 design, ensemble and UCB (Lib3) | `./results/round3_design/` |
 
 ## Model Summary
@@ -146,7 +146,6 @@ The ten architectures of Supplementary Fig. 8 are implemented in `./scripts`, on
 ├── results/                round-1, round-2 and round-3 design outputs
 └── scripts/                the ten benchmark architectures, lib_*.py
 ```
-
 
 # Resources
 
