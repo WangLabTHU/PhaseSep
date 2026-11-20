@@ -1,30 +1,3 @@
-'''The generator plumbing of the DeepSEED enhancer model: data, decoding, diagnostics, bookkeeping.
-
-This is the PhaseSep project's common.py, renamed by request and carried over verbatim apart from
-the three points below. It is imported by _cgan_arch.py, which holds the cGAN itself, and by the
-three R01_round1_prepare_lib_*.py step files.
-
-Deviations from common.py:
-  1. the file is called _cgan_common.py; cgan_debug.py is _cgan_arch.py, so the pair reads as the
-     architecture and its shared plumbing.
-  2. import joblib and the pdf/ps fonttype lines are the standing requirement for delivered files.
-  3. kmer_frequency saves its diagnostic figure in png, svg and pdf rather than png alone, which is
-     the other half of that same requirement. The three formats are written under the same name,
-     into ./checks/cgan_hek293t/cache/<model_name>/figure/ where the trainer already sent the single
-     png. The rest of the function, the drawing itself included, is untouched.
-  4. make_dir returns the savepath itself as check_path instead of savepath/check/<model_name>. The
-     cGAN keeps its weights flat in its own directory, ./checks/cgan_hek293t/net_G_*.pth and
-     net_D_*.pth, beside nothing but the cache/ tree; the four cache paths, and the fact that
-     calling make_dir creates whatever is missing, are unchanged. The checkpoint saving in
-     _cgan_arch.py's train() is the author's line, `torch.save(model.generator, check_path + ...)`,
-     and with check_path the savepath it writes there by itself.
-
-Everything else -- the one-hot encodings and their 'M' behaviour, LoadData and LoadData_Debug (the
-ten-seed augmentation and the 0.8 split), save_sequence, reserve_percentage, csv2fasta,
-tensor2seq, decode_oneHot, get_logger, convert, kmer_frequency, polyAT_freq and make_dir -- is byte
-for byte the original.
-'''
-
 import os,sys
 import numpy as np
 import pandas as pd

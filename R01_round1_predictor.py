@@ -1,39 +1,3 @@
-'''R01: the round-1 predictor -- the three branches trained on the whole library.
-
-tmp/R01_round1_predictor.py with its body, which the author had commented out, run live. The model
-is the AttnBiLSTM of _model.py, _model import * giving os, pd, plt, write_fa and write_exp; the
-round-1 library is read from the two mean tables, the three branches -- induced, uninduced, lfc --
-are trained on all of it, and the checkpoint of each lands under ./checks/round1_design/, which is
-where the round-2 design code and S13_mutant_template_boxplot.py look for them. The held-out twin of
-this file, which trains the same three branches on nine tenths of the same table, is
-S11_train_model.py.
-
-  ./data/7_exp_mean_FUS_TO_induced.tsv      in: the round-1 library, induced arm
-  ./data/7_exp_mean_FUS_TO_uninduced.tsv    in: the round-1 library, uninduced arm
-  ./data/predictor_train/                   out: train_seqs.txt and the three label files
-  ./checks/round1_design/                   out: induced/ uninduced/ lfc/, a checkpoint.pth each
-
-Deviations from tmp/R01_round1_predictor.py:
-  1. the body is live. The original held all of it commented out, from the two read_csv calls down
-     to the three train_branch calls; what those lines said is what runs, line for line.
-  2. paths: the two tables are read from ./data under their renamed project names,
-     7_exp_mean_FUS_TO_induced.tsv and 7_exp_mean_FUS_TO_uninduced.tsv, the names the rest of the
-     pipeline reads them under. The original read ./datasets/round1_origin/7_exp_mean_induced.tsv
-     and ./datasets/round1_origin/7_exp_mean_uninduced.tsv. The two output paths are the author's
-     own, ./data/predictor_train/ and ./checks/round1_design/, spelled as constants at the top.
-  3. ./data/predictor_train/ is created before the first write. write_fa and write_exp open their
-     file themselves and do not make the directory they are given, so with the author's lines alone
-     the run stops at the first write unless that directory happens to be there already.
-  4. the two input tables are checked before anything is read, so a missing one names itself.
-  5. import joblib and the pdf/ps fonttype lines are the standing requirement for delivered files.
-     This file draws nothing, so they do nothing here.
-  6. open_fa_with_tags, and the re, random, defaultdict and combinations imports, are the author's
-     and are not used by this file; they are kept as they were.
-
-Running this file writes ./data/predictor_train/ and trains three branches, 400 epochs each, into
-./checks/round1_design/.
-'''
-
 from _model import *
 import re
 import random
