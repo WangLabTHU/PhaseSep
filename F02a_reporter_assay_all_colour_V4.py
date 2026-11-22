@@ -336,7 +336,9 @@ for label in ("rtTA", "FUS"):
                              f"{metric}_Mean_{label}"].dropna()
             b = stats_df.loc[stats_df["Library"] == lib_b,
                              f"{metric}_Mean_{label}"].dropna()
-            t_stat, p_val = stats.ttest_ind(a, b, equal_var=False)
+            # Student's test, the same one p_value() uses for the per-sample
+            # comparisons, so the whole file reports one test
+            t_stat, p_val = stats.ttest_ind(a, b)
             rows.append({
                 "Metric": metric,
                 "Comparison": f"{lib_a} vs {lib_b}",
