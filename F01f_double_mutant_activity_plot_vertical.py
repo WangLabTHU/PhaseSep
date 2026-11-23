@@ -105,7 +105,7 @@ ax2.tick_params(axis='y', labelcolor='#669aba', pad=0.5)
 ax2.tick_params(axis='x', pad=1)
 ax2.set_title('Leakiness', color='#669aba', fontweight='bold', pad=3)
 ax2.set_xlabel('Double Mutant Variant', labelpad=1.5)  # Only bottom panel has x-label
-ax2.set_ylim(0, 300)
+ax2.set_ylim(0, 250)
 formatter2 = ScalarFormatter(useMathText=True)
 formatter2.set_scientific(True)
 formatter2.set_powerlimits((1, 1))
