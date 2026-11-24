@@ -117,16 +117,16 @@ The ten architectures of Supplementary Fig. 8 are implemented in `./scripts`, on
 
 | Architecture | Module | Note |
 |---|---|---|
-| AttnBiLSTM | `lib_attnbilstm.py` | [11] The paper's predictor, architecture after Vaishnav et al.; trained by `S09_train_model.py` |
-| DeepSTARR2 | `lib_deepstarr2.py` | [4] de Almeida et al. |
-| DeepGOPlus | `lib_deepgoplus.py` | [3] Kulmanov & Hoehndorf |
-| Malinois | `lib_malinois.py` | [5] Gosai et al.  |
-| LegNet | `lib_legnet.py` | [6] Agarwal et al.  |
-| DeepCROSS | `lib_deepcross.py` | [7] Zhang et al.  |
-| DenseNet | `lib_densenet.py` | [8] Huang et al.  |
-| DenseLSTM | `lib_denselstm.py` | [9] Li et al.  |
-| ResNet-HW | `lib_resnethw.py` | [10] He et al.; the two ResNet rows are the two variants of that backbone |
-| ResNet-WY | `lib_resnetwy.py` | [10] He et al. |
+| AttnBiLSTM | `lib_attnbilstm.py` | [11]; The paper's predictor, architecture after Vaishnav et al.; trained by `S09_train_model.py` |
+| DeepSTARR2 | `lib_deepstarr2.py` | [4]; de Almeida et al. |
+| DeepGOPlus | `lib_deepgoplus.py` | [3]; Kulmanov & Hoehndorf |
+| Malinois | `lib_malinois.py` | [5]; Gosai et al.  |
+| LegNet | `lib_legnet.py` | [6]; Agarwal et al.  |
+| DeepCROSS | `lib_deepcross.py` | [7]; Zhang et al.  |
+| DenseNet | `lib_densenet.py` | [8]; Huang et al.  |
+| DenseLSTM | `lib_denselstm.py` | [9]; Li et al.  |
+| ResNet-HW | `lib_resnethw.py` | [10]; He et al.; the two ResNet rows are the two variants of that backbone |
+| ResNet-WY | `lib_resnetwy.py` | [10]; He et al. |
 
 `lib_nnmodel.py` holds the dataset classes and a default model wrapper; it is not one of the ten compared.
 
