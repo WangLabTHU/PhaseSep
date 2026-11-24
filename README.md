@@ -117,16 +117,16 @@ The ten architectures of Supplementary Fig. 8 are implemented in `./scripts`, on
 
 | Architecture | Module | Note |
 |---|---|---|
-| AttnBiLSTM | `lib_attnbilstm.py` | The paper's predictor; trained by `S09_train_model.py` |
-| DeepSTARR2 | `lib_deepstarr2.py` | |
-| DeepGOPlus | `lib_deepgoplus.py` | |
-| Malinois | `lib_malinois.py` | |
-| LegNet | `lib_legnet.py` | |
-| DeepCROSS | `lib_deepcross.py` | |
-| DenseNet | `lib_densenet.py` | |
-| DenseLSTM | `lib_denselstm.py` | |
-| ResNet-HW | `lib_resnethw.py` | |
-| ResNet-WY | `lib_resnetwy.py` | |
+| AttnBiLSTM | `lib_attnbilstm.py` | The paper's predictor, architecture after Vaishnav et al. [11]; trained by `S09_train_model.py` |
+| DeepSTARR2 | `lib_deepstarr2.py` | de Almeida et al. [4] |
+| DeepGOPlus | `lib_deepgoplus.py` | Kulmanov & Hoehndorf [3] |
+| Malinois | `lib_malinois.py` | Gosai et al. [5] |
+| LegNet | `lib_legnet.py` | Agarwal et al. [6] |
+| DeepCROSS | `lib_deepcross.py` | Zhang et al. [7] |
+| DenseNet | `lib_densenet.py` | Huang et al. [8] |
+| DenseLSTM | `lib_denselstm.py` | Li et al. [9] |
+| ResNet-HW | `lib_resnethw.py` | He et al. [10]; the two ResNet rows are the two variants of that backbone |
+| ResNet-WY | `lib_resnetwy.py` | He et al. [10] |
 
 `lib_nnmodel.py` holds the dataset classes and a default model wrapper; it is not one of the ten compared.
 
