@@ -12,6 +12,10 @@ FIG_DIR = './figs'
 INPUT_CSV = os.path.join(DATA_DIR, 'toxic_gene_expression_raw_data_V7.csv')
 FIG_STEM = 'F02c_Cell_Viability_Plot_V7'
 DPI = 600
+# equivalence test added with v6_Figure_2C: a +/- 5 percentage-point margin on the
+# Normalized_Viability scale, two one-sided Welch tests, 90% CI
+EQUIV_MARGIN = 5.0
+ALPHA = 0.05
 
 # ==========================================
 # 1. ENVIRONMENT & FONTS CONFIGURATION
@@ -215,6 +219,31 @@ def get_p_and_stars(sample_a, sample_b, dox_cond="-"):
 p_s3_s7, stars_s3_s7 = get_p_and_stars("S3", "S7", dox_cond="-")
 p_s1_s7, stars_s1_s7 = get_p_and_stars("S1", "S7", dox_cond="-")
 
+
+def tost_welch(sample_test, sample_ref, dox_cond, margin=EQUIV_MARGIN,
+               alpha=ALPHA):
+    """Two one-sided Welch tests on the mean difference, as in
+    refs_pmn/v6_Figure_2C: equivalence holds when max(p_lower, p_upper) < alpha.
+    The reported interval is the (1 - 2*alpha) CI that matches the test."""
+    a = df_clean[(df_clean["Sample"] == sample_test)
+                 & (df_clean["Dox"] == dox_cond)]["Normalized_Viability"].values
+    b = df_clean[(df_clean["Sample"] == sample_ref)
+                 & (df_clean["Dox"] == dox_cond)]["Normalized_Viability"].values
+    n_a, n_b = len(a), len(b)
+    diff = a.mean() - b.mean()
+    se = np.sqrt(a.var(ddof=1) / n_a + b.var(ddof=1) / n_b)
+    den = ((a.var(ddof=1) / n_a) ** 2) / (n_a - 1) + \
+          ((b.var(ddof=1) / n_b) ** 2) / (n_b - 1)
+    df_welch = ((a.var(ddof=1) / n_a + b.var(ddof=1) / n_b) ** 2) / den \
+        if den > 0 else n_a + n_b - 2
+    p_lower = stats.t.sf((diff + margin) / se, df_welch)
+    p_upper = stats.t.cdf((diff - margin) / se, df_welch)
+    p_tost = max(p_lower, p_upper)
+    t_crit = stats.t.ppf(1 - alpha, df_welch)
+    return {"diff": diff, "ci_low": diff - t_crit * se, "ci_high": diff + t_crit * se,
+            "p_tost": p_tost,
+            "is_equiv": p_tost < alpha}
+
 sample_order = ["S1", "S3", "S4", "S6", "S7", "Mock"]
 unique_samples = [s for s in sample_order if s in df_summary["Sample"].unique()]
 
@@ -258,7 +287,7 @@ dox_plus_data = (
 # 5. STANDARDIZED GRAPHICAL RENDERING
 # ==========================================
 width_inch = 105 / 25.4
-height_inch = 50 / 25.4
+height_inch = 58 / 25.4
 
 fig, ax = plt.subplots(figsize=(width_inch, height_inch))
 
@@ -447,6 +476,14 @@ for dox_cond, data in (("-", dox_minus_data), ("+", dox_plus_data)):
 
 print(f"[report] Welch t-test, Dox-: S3 vs S7 p={p_s3_s7:.4g} ({stars_s3_s7}); "
       f"S1 vs S7 p={p_s1_s7:.4g} ({stars_s1_s7})")
+
+print(f"[report] TOST equivalence, Dox+ vs S7 (margin +/- {EQUIV_MARGIN} "
+      f"percentage points, alpha={ALPHA}):")
+for s_ in [s for s in unique_samples if s != "S7"]:
+    res = tost_welch(s_, "S7", dox_cond="+")
+    print(f"[report]   {s_}: diff={res['diff']:+.2f}, 90% CI "
+          f"[{res['ci_low']:.2f}, {res['ci_high']:.2f}], "
+          f"p_TOST={res['p_tost']:.4g}, equivalent={res['is_equiv']}")
 
 print(f"[report] Bracket base y={base_y:.3f}, step={step_y}, top ylim="
       f"{base_y + step_y + 19:.3f}.")
